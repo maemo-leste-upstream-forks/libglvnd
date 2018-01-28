@@ -1,3 +1,9 @@
+libglvnd (1.0.0-2~bpo9+1) stretch-backports; urgency=medium
+
+  * Rebuild for stretch-backports.
+
+ -- Jérémy Viès <jeremy.vies@gmail.com>  Sun, 28 Jan 2018 20:46:12 +0100
+
 libglvnd (1.0.0-2) unstable; urgency=medium
 
   [ Andreas Beckmann ]
