@@ -25,6 +25,7 @@ Depends:
  libglvnd0 (= ${binary:Version}),
  libglvnd-core-dev (= ${binary:Version}),
  libegl1 (= ${binary:Version}),
+ libgles1 (= ${binary:Version}),
  libgles2 (= ${binary:Version}),
  libgl1 (= ${binary:Version}),
  libglx0 (= ${binary:Version}),
@@ -33,10 +34,12 @@ Depends:
 Breaks:
  libegl1-mesa-dev (<< 17.2.0~rc4-1),
  libgl1-mesa-dev (<< 17.2.0~rc4-1),
+ libgles1-mesa-dev (<< 17.0.0~rc3-1),
  libgles2-mesa-dev (<< 17.2.0~rc4-1),
 Replaces:
  libegl1-mesa-dev (<< 17.2.0~rc4-1),
  libgl1-mesa-dev (<< 17.2.0~rc4-1),
+ libgles1-mesa-dev (<< 17.0.0~rc3-1),
  libgles2-mesa-dev (<< 17.2.0~rc4-1),
 Multi-Arch: same
 Description: Vendor neutral GL dispatch library -- development files
@@ -84,7 +87,7 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  libglvnd0 (= ${binary:Version}),
- libegl-mesa0 | libegl-vendor,
+ libegl-mesa0,
 Replaces:
  libegl1-mesa (<< 17.2.0~rc4-1),
  libglvnd0 (<< 0.2.999+git20170201-1)
@@ -98,6 +101,26 @@ Description: Vendor neutral GL dispatch library -- EGL support
  .
  This package contains support for EGL.
 
+Package: libgles1
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends},
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+ libglvnd0 (= ${binary:Version}),
+Replaces:
+ libgles1-mesa (<< 17.0.0~rc3-1),
+ libgles2 (<< 1.0.0+git20180308-5),
+Breaks:
+ libgles1-mesa (<< 17.0.0~rc3-1),
+ libgles2 (<< 1.0.0+git20180308-5),
+Multi-Arch: same
+Description: Vendor neutral GL dispatch library -- GLESv1 support
+ This is an implementation of the vendor-neutral dispatch layer for
+ arbitrating OpenGL API calls between multiple vendors on a per-screen basis.
+ .
+ This package contains support for GLESv1.
+
 Package: libgles2
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends},
@@ -110,11 +133,11 @@ Replaces:
 Breaks:
  libgles2-mesa (<< 17.2.0~rc4-1),
 Multi-Arch: same
-Description: Vendor neutral GL dispatch library -- GLES support
+Description: Vendor neutral GL dispatch library -- GLESv2 support
  This is an implementation of the vendor-neutral dispatch layer for
  arbitrating OpenGL API calls between multiple vendors on a per-screen basis.
  .
- This package contains support for GLES.
+ This package contains support for GLESv2.
 
 Package: libgl1
 Architecture: any
@@ -145,7 +168,7 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  libglvnd0 (= ${binary:Version}),
- libglx-mesa0 | libglx-vendor,
+ libglx-mesa0,
 Replaces:
  libgl1-mesa-glx (<< 17.2.0~rc4-1),
  libglvnd0 (<< 0.2.999+git20170201-1)
