@@ -1,3 +1,9 @@
+libglvnd (1.1.0-1~bpo9+1) stretch-backports; urgency=medium
+
+  * Rebuild for stretch-backports.
+
+ -- Andreas Boll <aboll@debian.org>  Thu, 11 Oct 2018 15:31:16 +0200
+
 libglvnd (1.1.0-1) unstable; urgency=medium
 
   * New upstream release.
