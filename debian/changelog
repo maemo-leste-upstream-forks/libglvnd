@@ -10,6 +10,8 @@ libglvnd (1.3.3-1) UNRELEASED; urgency=medium
   * New upstream release.
   * Restore libglvnd-core-dev. (Closes: #979976)
   * rules: Enable tests.
+  * control: Drop python3-libxml2 from build-depends, it's not used.
+    (Closes: #981417)
 
  -- Debian Janitor <janitor@jelmer.uk>  Sun, 07 Feb 2021 16:51:51 -0000
 

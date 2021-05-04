@@ -8,7 +8,6 @@ Build-Depends:
  pkg-config,
  libx11-dev,
  libxext-dev,
- python3-libxml2,
  python3-setuptools,
  x11proto-gl-dev,
  xauth,
