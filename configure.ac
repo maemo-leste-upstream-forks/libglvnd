@@ -2,7 +2,7 @@ dnl configure.ac
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT([libglvnd], [1.3.2], [kbrenneman@nvidia.com])
+AC_INIT([libglvnd], [1.3.3], [kbrenneman@nvidia.com])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
@@ -106,6 +106,16 @@ AM_CONDITIONAL([ENABLE_GLX_HEADERS], [test "x$enable_headers" = "xyes" -a "x$ena
 AM_CONDITIONAL([ENABLE_GLES1_HEADERS], [test "x$enable_headers" = "xyes" -a "x$enable_gles1" = "xyes"])
 AM_CONDITIONAL([ENABLE_GLES2_HEADERS], [test "x$enable_headers" = "xyes" -a "x$enable_gles2" = "xyes"])
 
+AC_ARG_ENABLE([entrypoint-patching],
+    [AS_HELP_STRING([--disable-entrypoint-patching],
+        [Disable OpenGL entrypoint patching optimization @<:@default=enabled@:>@])],
+    [enable_entrypoint_patching="$enableval"],
+    [enable_entrypoint_patching=yes]
+)
+AS_IF([test "x$enable_entrypoint_patching" = "xyes"],
+      [AC_DEFINE([GLDISPATCH_ENABLE_PATCHING], 1,
+      [Define to 1 to enable entrypoint patching in libGLdispatch.])])
+
 dnl
 dnl Arch/platform-specific settings. Copied from mesa
 dnl
@@ -201,10 +211,6 @@ if test "x$enable_glx" = "xyes" ; then
     PKG_CHECK_MODULES([GLPROTO], [glproto])
 fi
 
-AS_IF([test "x$gldispatch_use_tls" = "xyes"],
-      [AC_DEFINE([GLDISPATCH_USE_TLS], 1,
-      [Define to 1 if libGLdispatch should use a TLS variable for the dispatch table.])])
-
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_TYPEOF
 
@@ -236,8 +242,8 @@ AC_MSG_RESULT($HAVE_INIT_TLS)
 
 AC_MSG_CHECKING([for entrypoint stub type])
 case "x$asm_arch" in
-xx86 | xx86_64)
-    # For x86 and x86-64, both the TLS and TSD stubs work.
+xx86 | xx86_64 | xppc64)
+    # For x86, x86-64, and ppc64, both the TLS and TSD stubs work.
     if test "x$HAVE_INIT_TLS" = "xyes" ; then
         gldispatch_entry_type=${asm_arch}_tls
         gldispatch_use_tls=yes
@@ -255,16 +261,6 @@ xaarch64)
     # For aarch64, only the TSD stubs have been implemented yet.
     gldispatch_entry_type=aarch64_tsd
     gldispatch_use_tls=no
-    ;;
-xppc64)
-    # For ppc64, allow both the TLS and TSD stubs for now.
-    if test "x$HAVE_INIT_TLS" = "xyes" ; then
-        gldispatch_entry_type=ppc64_tls
-        gldispatch_use_tls=yes
-    else
-        gldispatch_entry_type=ppc64_tsd
-        gldispatch_use_tls=no
-    fi
     ;;
 *)
     # The C stubs will work with either TLS or TSD.
