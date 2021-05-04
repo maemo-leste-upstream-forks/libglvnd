@@ -24,16 +24,13 @@ Section: libdevel
 Architecture: any
 Depends:
  libglvnd0 (= ${binary:Version}),
+ libglvnd-core-dev (= ${binary:Version}),
  ${misc:Depends},
  libegl-dev (>= 1.3.0-1),
  libgl-dev (>= 1.3.0-1),
  libgles-dev (>= 1.3.0-1),
  libglx-dev (>= 1.3.0-1),
  libopengl-dev (>= 1.3.0-1),
-Breaks:
- libglvnd-core-dev (<< 1.3.0-1),
-Replaces:
- libglvnd-core-dev (<< 1.3.0-1),
 Multi-Arch: same
 Description: Vendor neutral GL dispatch library -- development files
  This is an implementation of the vendor-neutral dispatch layer for
@@ -42,14 +39,19 @@ Description: Vendor neutral GL dispatch library -- development files
  This package contains the development files for libglvnd.
 
 Package: libglvnd-core-dev
-Section: oldlibs
+Section: libdevel
 Architecture: any
 Depends:
- libglvnd-dev,
  ${misc:Depends},
+Breaks: libglvnd-dev (<< 1.3.3-1)
+Replaces: libglvnd-dev (<< 1.3.3-1)
 Multi-Arch: same
-Description: transitional dummy package
- This is a transitional dummy package, it can be safely removed.
+Description: Vendor neutral GL dispatch library -- core development files
+ This is an implementation of the vendor-neutral dispatch layer for
+ arbitrating OpenGL API calls between multiple vendors on a per-screen basis.
+ .
+ This package contains the header files for libglvnd split in a separate
+ package for Mesa.
 
 Package: libglvnd0
 Architecture: any
