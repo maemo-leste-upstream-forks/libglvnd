@@ -1,0 +1,41 @@
+From 2f07c675b911ff4d630556608e5d7d867c7e690c Mon Sep 17 00:00:00 2001
+From: suijingfeng <suijingfeng@loongson.cn>
+Date: Mon, 19 Jul 2021 21:05:54 +0800
+Subject: pass egl-symbols-check test on mips64el
+
+Without this patch the egl symbols check test fail on mips platform:
+
+72/87 mesa:egl / egl-symbols-check        FAIL        0.20s (exit status 1)
+
+src/egl/libEGL.so.1.0.0: unknown symbol exported: _fbss
+src/egl/libEGL.so.1.0.0: unknown symbol exported: _fdata
+src/egl/libEGL.so.1.0.0: unknown symbol exported: _ftext
+
+See Mips Run say thoes special symbols are automatically defined by the
+linker to allow programs to discover the start and end of their various
+section. They are descended from conventions that grew up in UNIX-like OSs,
+and are peculiar to the MIPS environment.
+
+_fbss  :  Start of uninitialized data segment
+_fdata :  Start of initialized data segment
+_ftext :  Start of text segment
+
+Reviewed-by: Adam Jackson <ajax@redhat.com>
+Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/11955>
+---
+ bin/symbols-check.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+--- a/bin/symbols-check.py
++++ b/bin/symbols-check.py
+@@ -40,6 +40,9 @@ PLATFORM_SYMBOLS = [
+     '_end',
+     '_fini',
+     '_init',
++    '_fbss',
++    '_fdata',
++    '_ftext',
+ ]
+ 
+ 
