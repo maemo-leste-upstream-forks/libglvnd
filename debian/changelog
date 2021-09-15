@@ -1,3 +1,10 @@
+libglvnd (1.3.4-2) unstable; urgency=medium
+
+  [ Adrian Bunk ]
+  * Add bin/symbols-check.py fix for mips*
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 15 Sep 2021 09:00:43 +0300
+
 libglvnd (1.3.4-1) unstable; urgency=medium
 
   * New upstream release.
