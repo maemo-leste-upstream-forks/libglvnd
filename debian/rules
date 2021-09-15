@@ -13,7 +13,9 @@ override_dh_missing:
 	dh_missing --fail-missing
 
 override_dh_auto_test:
+ifeq ($(filter nocheck,$(DEB_BUILD_OPTIONS)),)
 	xvfb-run -a ninja -C build test
+endif
 
 override_dh_makeshlibs:
 	dh_makeshlibs -a -- -c4
